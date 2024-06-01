@@ -10,5 +10,4 @@ The first randomly generated point - assuming more than one - is followed along 
 A proper data structure wasn't implemented here, which would be needed for integration into a simulation/game context.
 
 ## TODOs
-1. update to use sliders - instead of editable fields.
-2. Add proper data structure for reuse
+1. Add proper data structure for reuse
