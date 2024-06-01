@@ -23,8 +23,8 @@ var maxFlashFrames = 5;
 var currentColorDepth = 0; 
 var maxDepth = 7;
 
-var maxHoneSize = 100;
-var honer = 0;
+var maxHomeSize = 100;
+var homer = 0;
 
 var randomPointCount = 1;
 
@@ -35,7 +35,7 @@ var randomPoints = [];
 var colorOrder = ['lightgrey', 'grey', 'darkgrey', 'black', 'white'];
 
 // Buttons 
-var jiggleBtn, toggleHonerBtn, jiggleRandoBtn, flashingQuadBtn, randomPointButton; 
+var jiggleBtn, togglehomerBtn, jiggleRandoBtn, flashingQuadBtn, randomPointButton; 
 
 class RectData
 {
@@ -93,45 +93,45 @@ function setup()
 function DoButtons()
 {
     var pointStr = randomPointCount > 1 ? "s" : "";
-    randomPointButton = createButton('Generate New Random Point' + pointStr);
+    randomPointButton = createButton('Generate new random point' + pointStr);
     randomPointButton.position(860, 150);
     randomPointButton.size(400, 100);
     randomPointButton.mousePressed(FindNewQuads);
 
-    jiggleBtn = createButton(!jiggly ? "Do Jiggly Lines" : "Do Straight Lines");
+    jiggleBtn = createButton(!jiggly ? "Do jiggly lines" : "Do straight lines");
     jiggleBtn.position(860, 270);
     jiggleBtn.size(400, 100);
     jiggleBtn.mousePressed(_ => 
         {
             jiggly = !jiggly;
-            jiggleBtn.html(!jiggly ? "Do Jiggly Lines" : "Do Straight Lines");
+            jiggleBtn.html(!jiggly ? "Do jiggly lines" : "Do straight lines");
         });
 
-    toggleHonerBtn = createButton("Toggle Honer");
-    toggleHonerBtn.position(860, 480);
-    toggleHonerBtn.size(400, 100);
-    toggleHonerBtn.mousePressed(_ => 
+    togglehomerBtn = createButton("Toggle homer");
+    togglehomerBtn.position(860, 480);
+    togglehomerBtn.size(400, 100);
+    togglehomerBtn.mousePressed(_ => 
         {
              doHone = !doHone;
-             toggleHonerBtn.html(doHone ? "Turn Off Honer" : "Turn On Honer");
+             togglehomerBtn.html(doHone ? "Turn off homer" : "Turn on homer");
         });
 
-    jiggleRandoBtn = createButton(jiggleRando ? "Turn Off Jiggle" : "Turn On Jiggle");
+    jiggleRandoBtn = createButton(jiggleRando ? "Turn off jiggle" : "Turn on jiggle");
     jiggleRandoBtn.position(860, 600);
     jiggleRandoBtn.size(400, 100);
     jiggleRandoBtn.mousePressed(_ => 
         {
             jiggleRando = !jiggleRando;
-            jiggleRandoBtn.html(!jiggleRando ? "Jiggly Random Points" : "Turn Off Jiggly Points");
+            jiggleRandoBtn.html(!jiggleRando ? "jiggly random points" : "Turn off jiggly points");
         });
     
-    flashingQuadBtn = createButton(flashingQuad ? "Turn Off Flashing Quad" : "Turn On Flashing Quad");
+    flashingQuadBtn = createButton(flashingQuad ? "Turn off flashing quad" : "Turn on flashing quad");
     flashingQuadBtn.position(860, 720);
     flashingQuadBtn.size(400, 100);
     flashingQuadBtn.mousePressed(_ => 
         {
             flashingQuad = !flashingQuad;
-            flashingQuadBtn.html(flashingQuad ? "Turn Off Flashing Quad" : "Turn On Flashing Quad");
+            flashingQuadBtn.html(flashingQuad ? "Turn off flashing quad" : "Turn on flashing quad");
         });
 }
 
@@ -175,7 +175,7 @@ function DoFields()
             randomPointCount = Math.min(Math.max(randomPointCount, 1), 100);
             FindNewQuads();
             pointField.value(randomPointCount);
-            randomPointButton.html('Generate New Random Point' + (randomPointCount > 1 ? "s" : ""));
+            randomPointButton.html('Generate new random point' + (randomPointCount > 1 ? "s" : ""));
         });
     pointField.value(randomPointCount);
 }
@@ -252,7 +252,7 @@ function draw()
         leftBuffer.point(p.x + (jiggleRando ? wiggle() : 0), p.y + (jiggleRando ? wiggle() : 0));
         });
     
-    if (doHone) DrawEchoHoner();
+    if (doHone) DrawEchohomer();
 
     rightBuffer.strokeWeight(1);
     rightBuffer.stroke('black');
@@ -277,18 +277,18 @@ function wiggle()
     return Math.random() * 2 - 1;
 }
 
-function DrawEchoHoner()
+function DrawEchohomer()
 {
     var honeColor = color('red');
     honeColor = color(red(honeColor), green(honeColor), blue(honeColor), 150);
     leftBuffer.stroke(honeColor);   
     leftBuffer.noFill();
-    honer = honer < 60 ? honer + 0.5: 0;
+    homer = homer < 60 ? homer + 0.5: 0;
 
     for (var i = 0; i < 4; i++)
     {
         leftBuffer.strokeWeight(4 - i);
-        leftBuffer.ellipse(randomPoints[0].x, randomPoints[0].y, honer + (i * 10));
+        leftBuffer.ellipse(randomPoints[0].x, randomPoints[0].y, homer + (i * 10));
     }
 
     leftBuffer.stroke('black');
