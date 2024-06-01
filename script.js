@@ -87,7 +87,7 @@ function setup()
     GenerateRandomPoints(randomPointCount);
     GetQuadData(maxDepth);
     DoButtons();
-    DoFields();
+    DoSliders();
 }
 
 function DoButtons()
@@ -135,49 +135,39 @@ function DoButtons()
         });
 }
 
-function DoFields()
+function DoSliders()
 {
-    var fieldSize = 15;
-    var fieldX = 1025;
+    var sliderX = 1070;
+    var sliderY = 390;
+    var sliderWidth = 175;
+    var sliderHeight = 20;
 
-    let depthField = createInput();
-    depthField.position(fieldX, 390);
-    depthField.size(fieldSize, fieldSize);
-    depthField.input(_ => 
+    let depthSlider = createSlider(1, 8, maxDepth);
+    depthSlider.position(sliderX, sliderY);
+    depthSlider.size(sliderWidth, sliderHeight);
+    depthSlider.input(_ => 
         {
-            var newMaxDepth = parseInt(depthField.value());
-            maxDepth = Number.isInteger(newMaxDepth) ? newMaxDepth : maxDepth;
-            maxDepth = Math.min(Math.max(maxDepth, 1), 8);
+            maxDepth = depthSlider.value();
             FindNewQuads();
-            depthField.value(maxDepth);
         });
-    depthField.value(maxDepth);
-    
-    let frameField = createInput();
-    frameField.position(fieldX, 420);
-    frameField.size(fieldSize, fieldSize);
-    frameField.input(_ => 
-        {
-            var newMaxFrames = parseInt(frameField.value());
-            maxFrames = Number.isInteger(newMaxFrames) ? newMaxFrames : maxFrames;
-            maxFrames = Math.min(Math.max(maxFrames, 1), 60);
-            frameField.value(maxFrames);
-        });
-    frameField.value(maxFrames);
 
-    let pointField = createInput();
-    pointField.position(fieldX + 80, 450);
-    pointField.size(fieldSize + 10, fieldSize);
-    pointField.input(_ => 
+    let frameSlider = createSlider(1, 60, maxFrames);
+    frameSlider.position(sliderX, sliderY + 30);
+    frameSlider.size(sliderWidth, sliderHeight);
+    frameSlider.input(_ => 
         {
-            var newPointCount = parseInt(pointField.value());
-            randomPointCount = Number.isInteger(newPointCount) ? newPointCount : randomPointCount;
-            randomPointCount = Math.min(Math.max(randomPointCount, 1), 100);
-            FindNewQuads();
-            pointField.value(randomPointCount);
+            maxFrames = frameSlider.value();
+        });
+
+    let pointSlider = createSlider(1, 100, randomPointCount);
+    pointSlider.position(sliderX, sliderY + 60);
+    pointSlider.size(sliderWidth, sliderHeight);
+    pointSlider.input(_ => 
+        {
+            randomPointCount = pointSlider.value();
             randomPointButton.html('Generate new random point' + (randomPointCount > 1 ? "s" : ""));
+            FindNewQuads();
         });
-    pointField.value(randomPointCount);
 }
 
 function FindNewQuads()
@@ -252,15 +242,15 @@ function draw()
         leftBuffer.point(p.x + (jiggleRando ? wiggle() : 0), p.y + (jiggleRando ? wiggle() : 0));
         });
     
-    if (doHone) DrawEchohomer();
+    if (doHone) DrawEchoHomer();
 
     rightBuffer.strokeWeight(1);
     rightBuffer.stroke('black');
     rightBuffer.fill('black');
     rightBuffer.textSize(24);
-    rightBuffer.text('Depth (1 - 8)', 55, 400);
-    rightBuffer.text('Frames (1 - 60)', 55, 430);
-    rightBuffer.text('Random Points (1 - 100)', 55, 460);
+    rightBuffer.text(`Depth (${maxDepth})`, 55, 400);
+    rightBuffer.text(`Frames (${maxFrames})`, 55, 430);
+    rightBuffer.text(`Random Points (${randomPointCount})`, 55, 460);
     rightBuffer.text("Quad Tree Visualizer",130, 50);
     rightBuffer.text(`X: ${mouseX.toFixed(1)}, Y:${mouseY.toFixed(1)}`, 55, 110);
     rightBuffer.text(`Random point: ${soughtCoordinates.x.toFixed(2)}, ${soughtCoordinates.y.toFixed(2)}`, 55, 85);
@@ -277,7 +267,7 @@ function wiggle()
     return Math.random() * 2 - 1;
 }
 
-function DrawEchohomer()
+function DrawEchoHomer()
 {
     var honeColor = color('red');
     honeColor = color(red(honeColor), green(honeColor), blue(honeColor), 150);
